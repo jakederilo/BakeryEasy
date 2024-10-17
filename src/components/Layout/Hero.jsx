@@ -44,8 +44,11 @@ const Hero = () => {
           />
         </div>
       </section>
-      <SectionHeaders />
-      <HomeMenu />
+      <div className="max-w-6xl mx-auto">
+        <SectionHeaders />
+
+        <HomeMenu />
+      </div>
     </>
   );
 };

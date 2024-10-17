@@ -1,23 +1,13 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  // Add your user schema fields here
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  // ... other fields
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String },
+  googleId: { type: String },
+  authType: { type: String, enum: ["google", "local"], default: "local" },
 });
 
-const User = mongoose.model("User", userSchema); // Use 'User' instead of 'itemSchema'
+const User = mongoose.model("User", userSchema);
 
-export default User; // Export the User model
+export default User;

@@ -8,10 +8,10 @@ import Hero from "./components/Layout/Hero.jsx";
 import HomeMenu from "./components/Layout/HomeMenu.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <div className="max-w-6xl mx-auto">
-    <BrowserRouter>
+  <BrowserRouter>
+    <div className="max-w-6xl mx-auto">
       <Header />
       <App />
-    </BrowserRouter>
-  </div>
+    </div>
+  </BrowserRouter>
 );
