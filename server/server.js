@@ -20,6 +20,7 @@ const port = 5000;
 
 const JWT_SECRET = "absdjsjdsks"; // Strong secret key\
 const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
 app.use(
   cors({
@@ -46,9 +47,8 @@ passport.deserializeUser((user, done) => done(null, user));
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "605946983160-vf0d2e27pj7601kv82b91ut7m6mlk8t3.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:5000/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
