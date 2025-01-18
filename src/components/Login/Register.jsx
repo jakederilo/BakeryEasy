@@ -43,13 +43,13 @@ const Register = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+      <button
+        onClick={onClose} // Close modal on clicking ×
+        className="absolute top-4 right-4 text-gray-600 text-5xl w-16 h-16 hover:text-gray-800 flex items-center justify-center"
+      >
+        &times;
+      </button>
       <div className="bg-white w-full max-w-md p-6 rounded-xl shadow-lg relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
-        >
-          &times;
-        </button>
         <section className="font-Roboto mt-4">
           <h1 className="text-center text-primary text-4xl mb-4">Register</h1>
           {message && (
@@ -103,7 +103,7 @@ const Register = ({ onClose }) => {
               Login with Google
             </button>
             <button
-              className="text-center my-4 text-gray-500 border-t pt-4"
+              className="text-center ml-10 my-4 text-gray-500 border-t pt-4"
               onClick={handleClick}
             >
               Existing account?{" "}

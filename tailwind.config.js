@@ -6,12 +6,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      perspective: {
+        DEFAULT: "1000px",
+      },
       colors: {
-        primary: "#f13a01",
+        primary: "#FF2D55",
+        secondary: "#FFEFEF",
       },
       fontFamily: {
         Roboto: ["Roboto", "sans-serif"],
         australia: ["Edu AU VIC WA NT Dots", "cursive"],
+        cake: ['"Great Vibes"', "cursive"],
       },
     },
   },

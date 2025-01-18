@@ -1,37 +1,42 @@
 import React from "react";
 import CakeImage from "/cake.png";
 import Right from "../icons/Right";
-import HomeMenu from "./HomeMenu";
+import { Link } from "react-router-dom";
 import SectionHeaders from "./SectionHeaders";
+import Custom from "../icons/Customize";
+import Menu from "./Cake";
+import About from "../Navbar/About";
 
 const Hero = () => {
   return (
     <>
-      <section className="hero">
-        <div className="py-12">
+      <section className="hero ">
+        <div className="py-12 ">
           <div>
-            <h1
-              className="font-Roboto font-semibold
-            text-4xl"
-            >
-              Everything
-              <br /> is better with
-              <br /> a&nbsp;
-              <span className="text-primary">Cake</span>
+            <h1 className="font-Roboto font-bold text-4xl">
+              Life’s sweeter
+              <br /> with a slice of
+              <br /> <span className="text-primary">Cake</span>
             </h1>
-            <p className=" my-4 text-gray-500">
-              Pizza is the missing pieace that makes every day complete, a
-              simple yet delicious joy in life
+            <p className="my-4 text-gray-500">
+              Cake is the sweet touch that <br />
+              turns ordinary moments into delightful memories.
             </p>
             <div className="font-Roboto flex gap-4 text-sm">
-              <button className="bg-primary uppercase flex items-center gap-2 text-white px-4 py-2 rounded-full">
+              <Link
+                to="/customise"
+                className="bg-white uppercase flex items-center gap-2 text-primary px-3 py-2 rounded-full"
+              >
+                Customize
+                <Custom />
+              </Link>
+              <Link
+                to="/cake"
+                className="bg-primary uppercase flex items-center  text-white px-3 py-2 rounded-full"
+              >
                 Order now
                 <Right />
-              </button>
-              <button className="flex gap-2 py-2 text-gray-600 font-medium text-fontFamily-Roboto-0">
-                Learn more
-                <Right />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -44,10 +49,12 @@ const Hero = () => {
           />
         </div>
       </section>
-      <div className="max-w-6xl mx-auto">
-        <SectionHeaders />
 
-        <HomeMenu />
+      <SectionHeaders />
+
+      <Menu />
+      <div className="py-16 px-8">
+        <About />
       </div>
     </>
   );
