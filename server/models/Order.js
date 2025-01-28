@@ -9,6 +9,7 @@ const OrderSchema = new mongoose.Schema({
       title: { type: String, required: true },
       description: { type: String }, // Optional description
       price: { type: Number, required: true },
+      flavor: { type: String },
       category: { type: String }, // Optional category
       imagePath: { type: String }, // Optional image path
       image: { type: String, required: true },

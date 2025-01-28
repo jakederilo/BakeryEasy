@@ -5,26 +5,16 @@ import Close from "../../assets/close.svg";
 function ProcedureModal({ isOpen, onClose }) {
   const [currentPage, setCurrentPage] = useState(0);
   const pages = [
+    { title: "Step 1", content: "Select the number of layers." },
+    { title: "Step 2", content: "Choose a shape for your cake." },
+    { title: "Step 3", content: "Select a flavor for your cake." },
+    { title: "Step 4", content: "Pick colors for each layer." },
+    { title: "Step 5", content: "Write a greeting for the top of your cake." },
     {
-      title: "Step 1",
-      content: "Select the number of layers.",
+      title: "Step 6",
+      content: "Click the 'Screenshot' button to preview your design.",
     },
-    {
-      title: "Step 2",
-      content: "Choose a shape for your cake.",
-    },
-    {
-      title: "Step 3",
-      content: "Pick colors for each layer.",
-    },
-    {
-      title: "Step 4",
-      content: "Add custom text and customize font.",
-    },
-    {
-      title: "Step 5",
-      content: "Take a screenshot and preview your design.",
-    },
+    { title: "Step 7", content: "Click 'Done' and add your cake to the cart." },
   ];
 
   const nextPage = () => {

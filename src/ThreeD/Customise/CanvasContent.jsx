@@ -23,6 +23,7 @@ function CanvasContent({
   const { gl, scene, camera } = useThree();
   const textRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
 
   const handleCaptureScreenshot = () => {
     if (gl && scene && camera) {
@@ -162,19 +163,6 @@ function CanvasContent({
 
   return (
     <>
-      {/* Button to open the Procedure Modal */}
-      <Html>
-        <div className="fixed items-center justify-center -top-48 -left-60">
-          <button onClick={() => setIsModalOpen(true)}>
-            <img src={Procedure} alt="Procedure" height={24} width={24} />
-          </button>
-        </div>
-      </Html>
-      <ProcedureModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
-
       <ambientLight intensity={0.0} />
       <directionalLight position={[0, 9, 0]} intensity={1} />
       <spotLight
@@ -213,9 +201,16 @@ function CanvasContent({
       <OrbitControls makeDefault />
 
       <Html>
-        <div className="fixed items-center justify-center -bottom-52 -right-10">
+        <div className="fixed items-center justify-center -bottom-52 -right-10 ">
+          {showTooltip && (
+            <div className="absolute -top-1 left-14 bg-secondary text-primary font-semibold text-sm px-2 py-1 rounded-md">
+              Capture
+            </div>
+          )}
           <button
             onClick={handleCaptureScreenshot}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
             className="justify-center bg-white
               bg-opacity-50 text-white text-lg p-4 mb-5 rounded-full"
           >

@@ -6,6 +6,8 @@ import LayerSelection from "./LayerSelection";
 import ArrowDown from "../../assets/arrowdown.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Procedure from "/procedure.png";
+import ProcedureModal from "../Customise/ProcedureModal";
 
 const SuccessModal = ({ message, onClose }) => (
   <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
@@ -64,8 +66,10 @@ function CakeCustomizer({ userId }) {
   const [layer1, setLayer1] = useState("#f0a3a3");
   const [layer2, setLayer2] = useState("#d4a5a5");
   const [layer3, setLayer3] = useState("#c19a9a");
-  const [greetingsText, setGreetingsText] = useState("");
-  const [fromText, setFromText] = useState("From: ");
+  const [greetingsText, setGreetingsText] = useState(
+    "Happy Birthday\nYour Name"
+  );
+  const [fromText, setFromText] = useState("From: Your Name");
   const [textColor, setTextColor] = useState("#ffffff");
   const [numberOfLayers, setNumberOfLayers] = useState(2);
   const [currentShape, setCurrentShape] = useState("circle");
@@ -76,7 +80,8 @@ function CakeCustomizer({ userId }) {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const modalTimeoutRef = useRef(null);
   const navigate = useNavigate();
-
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
   const handleScreenshotTake = (imageData) => setScreenshot(imageData);
 
   const calculatePrice = () => {
@@ -155,7 +160,9 @@ function CakeCustomizer({ userId }) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 p-4 overflow-hidden">
+    <div className="flex flex-col  gap-6 p-4 overflow-hidden">
+      {/* Procedure Button */}
+
       {showSuccessModal && (
         <SuccessModal
           message="Cake added to cart!"
@@ -198,12 +205,34 @@ function CakeCustomizer({ userId }) {
               />
             </div>
             <div className="flex-grow md:w-1/2 bg-white h-1/2 rounded-md shadow p-4">
+              <div className="fix relative">
+                {showTooltip && (
+                  <div className="absolute -top-1 left-12 font-semibold bg-secondary text-primary text-sm px-2 py-1 rounded-md">
+                    Procedure
+                  </div>
+                )}
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                  className="justify-center bg-white
+              bg-opacity-50 text-white text-lg p-4 mb-5 rounded-full"
+                >
+                  <img src={Procedure} alt="Procedure" height={24} width={24} />
+                </button>
+              </div>
+
               <Canvas
                 shadows
                 dpr={[1, 2]}
                 camera={{ position: [0, 20, 10], fov: 60 }}
                 style={{ width: "100%", height: "400px" }} // Adjust height here
               >
+                <ProcedureModal
+                  isOpen={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
+                />
+
                 <CanvasContent
                   layer1={layer1}
                   layer2={layer2}
