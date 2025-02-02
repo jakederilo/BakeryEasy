@@ -17,16 +17,13 @@ import Loyalty from "./models/Loyalty.js";
 
 const app = express();
 
-const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
-const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
 app.use(
   cors({
-    origin: "https://admin-bakeryeasy-customer.vercel.app", // Allow requests from this origin
+    origin: `${process.env.VITE_API_URL}`, // Allow requests from this origin
     credentials: true,
   })
 );
@@ -64,8 +61,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL:
-        "https://admin-bakeryeasy-customer.vercel.app/auth/google/callback",
+      callbackURL: `${process.env.VITE_API_URL}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -112,7 +108,7 @@ app.get(
         expiresIn: "1h",
       });
       res.redirect(
-        `https://admin-bakeryeasy-customer.vercel.app/?token=${token}&name=${req.user.name}&id=${req.user.id}`
+        `${process.env.VITE_API_URL}/?token=${token}&name=${req.user.name}&id=${req.user.id}`
       );
     } else {
       res.redirect("/login");
@@ -623,8 +619,7 @@ const createPaymentLink = async (amount, description, remarks, orderId) => {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      authorization:
-        "Basic c2tfdGVzdF9zb2FqZFBrbUZFVEZ3d3FzRkV6cmdad2s6YmFrZXJ5",
+      authorization: `${process.env.PAYMONGO_AUTH}`,
     },
     body: JSON.stringify({
       data: {
@@ -637,8 +632,8 @@ const createPaymentLink = async (amount, description, remarks, orderId) => {
           statement_descriptor: remarks,
           metadata: { order_id: orderId }, // Attach order ID as metadata
           redirect: {
-            success: "http://localhost:5000/cart?status=success", // Redirect here after successful payment
-            failed: "http://localhost:5000/cart?status=failed", // Redirect here if payment fails
+            success: `${process.env.VITE_API_URL}/cart?status=success`, // Redirect here after successful payment
+            failed: `${process.env.VITE_API_URL}/cart?status=failed`, // Redirect here if payment fails
           },
         },
       },
