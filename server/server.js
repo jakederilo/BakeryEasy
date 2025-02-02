@@ -16,8 +16,8 @@ import Order from "./models/Order.js";
 import Loyalty from "./models/Loyalty.js";
 
 const app = express();
-const port = 5000;
 
+const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -772,7 +772,7 @@ app.get("/loyalty/:userId", async (req, res) => {
   }
 });
 
-// Start Server
+const port = process.env.PORT || 5000; // Use Vercel's port in production, 5000 locally
 app.listen(port, () => {
-  console.log(`Server app is listening at http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
