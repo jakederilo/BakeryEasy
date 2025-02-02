@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "../CartContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import CakeRecom from "../Layout/CakeRecom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const AddCart = () => {
   const [showModal, setShowModal] = useState(false);
@@ -119,20 +120,17 @@ const AddCart = () => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/create-payment-link",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(orderData),
-        }
-      );
+      const response = await fetch(`${apiUrl}/create-payment-link`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
 
       const data = await response.json();
       if (data.checkoutUrl) {
         const userId = localStorage.getItem("id");
         const clearCartResponse = await fetch(
-          `http://localhost:5000/clear-cart/${userId}`,
+          `${apiUrl}/clear-cart/${userId}`,
           { method: "DELETE" }
         );
 

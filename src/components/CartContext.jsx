@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const CartContext = createContext();
 
@@ -14,7 +15,7 @@ export const CartProvider = ({ children }) => {
     if (!userId) return; // Prevent fetch if user is not logged in
 
     axios
-      .get(`http://localhost:5000/carts/${userId}`)
+      .get(`${apiUrl}/carts/${userId}`)
       .then((response) => {
         setCartItems(response.data);
       })
@@ -37,7 +38,7 @@ export const CartProvider = ({ children }) => {
     itemType = "regular", // Default to 'regular' if not provided
   }) => {
     axios
-      .post("http://localhost:5000/carts/", {
+      .post(`${apiUrl}/carts/`, {
         userId,
         title,
         description,
@@ -58,7 +59,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = (itemId) => {
     axios
-      .delete(`http://localhost:5000/carts/item/${itemId}`)
+      .delete(`${apiUrl}/carts/item/${itemId}`)
       .then((response) => {
         if (response.status === 200) {
           // Update local state to remove the deleted item from the cart
@@ -75,7 +76,7 @@ export const CartProvider = ({ children }) => {
     if (!userId) return;
 
     axios
-      .delete(`http://localhost:5000/carts/clear/${userId}`)
+      .delete(`${apiUrl}/carts/clear/${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setCartItems([]); // Clear the cart locally
@@ -95,7 +96,7 @@ export const CartProvider = ({ children }) => {
 
     // Notify the server
     axios
-      .put(`http://localhost:5000/carts/item/${itemId}/increase`)
+      .put(`${apiUrl}/carts/item/${itemId}/increase`)
       .catch((error) => console.error("Error increasing quantity:", error));
   };
 
@@ -110,7 +111,7 @@ export const CartProvider = ({ children }) => {
 
     // Notify the server
     axios
-      .put(`http://localhost:5000/carts/item/${itemId}/decrease`)
+      .put(`${apiUrl}/carts/item/${itemId}/decrease`)
       .catch((error) => console.error("Error decreasing quantity:", error));
   };
 

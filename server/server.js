@@ -18,18 +18,31 @@ import Loyalty from "./models/Loyalty.js";
 const app = express();
 const port = 5000;
 
-const JWT_SECRET = "absdjsjdsks"; // Strong secret key\
+const JWT_SECRET = process.env.JWT_SECRET;
 const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
-const GOOGLE_CLIENT_ID =
-  "605946983160-vf0d2e27pj7601kv82b91ut7m6mlk8t3.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from this origin
+    origin: "https://admin-bakeryeasy-customer.vercel.app", // Allow requests from this origin
     credentials: true,
   })
 );
+
+// Serve static files from the Vite app
+app.use(express.static(path.join(__dirname, "../src/dist")));
+
+// API route example
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from the backend!" });
+});
+
+// Serve the Vite app for all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../src/dist/index.html"));
+});
 
 app.use(json());
 app.use(
@@ -51,7 +64,8 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL:
+        "https://admin-bakeryeasy-customer.vercel.app/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -72,10 +86,9 @@ passport.use(
   )
 );
 
-const dbPassword = "lsMZn83HM0dRtXpr";
-const dbName = "mongodb+srv://bakery-easy:";
-const dbLink =
-  "@cluster0.t8k51.mongodb.net/userdb?retryWrites=true&w=majority&appName=Cluster0";
+const dbPassword = process.env.MONGODB_PASSWORD;
+const dbName = process.env.MONGODB_NAME;
+const dbLink = process.env.MONGODB_LINK;
 const dbConnection = dbName + dbPassword + dbLink;
 
 connect(dbConnection)
@@ -99,7 +112,7 @@ app.get(
         expiresIn: "1h",
       });
       res.redirect(
-        `http://localhost:5173/?token=${token}&name=${req.user.name}&id=${req.user.id}`
+        `https://admin-bakeryeasy-customer.vercel.app/?token=${token}&name=${req.user.name}&id=${req.user.id}`
       );
     } else {
       res.redirect("/login");
@@ -129,7 +142,7 @@ app.post("/login", async (req, res) => {
   const { email, password, captchaToken } = req.body;
 
   // Verify reCAPTCHA token
-  const secretKey = "6LeQLI4qAAAAAPUcRr1CBFWzqRzFk0mqijAWMZXG"; // Replace with your secret key
+  const secretKey = process.env.RECAPTCHA_NEW_SECRET_KEY; // Replace with your secret key
   const response = await axios.post(
     `https://www.google.com/recaptcha/api/siteverify`,
     null,

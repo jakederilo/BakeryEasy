@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import Back from "../../assets/Leftarrow.svg";
+const siteKey = import.meta.env.VITE_RECAPTCHA_NEW_SITE_KEY;
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = ({ onLoginSuccess, onClose }) => {
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
     setErrorMessage("");
 
     axios
-      .post("http://localhost:5000/Login", { email, password, captchaToken })
+      .post(`${apiUrl}/Login`, { email, password, captchaToken })
       .then((result) => {
         if (result.data.token) {
           localStorage.setItem("token", result.data.token);
@@ -105,7 +107,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
 
           <form className="max-w-xs mx-auto" onSubmit={handleSubmit}>
             <ReCAPTCHA
-              sitekey="6LeQLI4qAAAAAApAQAdKaG7O2c2hXXtrLseb8jTG"
+              sitekey={siteKey}
               onChange={handleCaptchaChange}
               className="justify-center items-center pb-4 pl-2"
             />
@@ -114,7 +116,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
               disabled={!captchaToken}
               className="flex gap-4 justify-center w-full text-gray-700 font-semibold border border-gray-500 rounded-xl px-6 py-2"
               onClick={(e) => {
-                window.location.href = "http://localhost:5000/auth/google";
+                window.location.href = `${apiUrl}/auth/google`;
               }}
             >
               <img

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
@@ -18,9 +19,7 @@ const Order = () => {
         return;
       }
 
-      const response = await axios.get(
-        `http://localhost:5000/orders/${userId}`
-      );
+      const response = await axios.get(`${apiUrl}/orders/${userId}`);
       setOrders(response.data);
       setFilteredOrders(response.data);
     } catch (error) {
@@ -34,7 +33,7 @@ const Order = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/orders/${orderId}`, {
+      await axios.put(`${apiUrl}/orders/${orderId}`, {
         status: newStatus,
       });
       setOrders(

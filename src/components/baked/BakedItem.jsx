@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useCart } from "../CartContext";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 const BakedItem = ({ title, description, price, image }) => {
   const { addToCart } = useCart();

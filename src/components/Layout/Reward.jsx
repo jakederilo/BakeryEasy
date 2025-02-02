@@ -3,6 +3,7 @@ import axios from "axios";
 import DiscountedItem from "../baked/DiscountItem";
 import ConfirmationModal from "./confirmationmodal/ConfirmationModal";
 import { useCart } from "../CartContext";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export const Reward = () => {
   const [orderCount, setOrderCount] = useState(0);
@@ -26,7 +27,7 @@ export const Reward = () => {
 
   const fetchLoyaltyDetails = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/loyalty/${id}`);
+      const response = await axios.get(`${apiUrl}/loyalty/${id}`);
       setOrderCount(response.data.orderCount);
       setStatus(response.data.status); // Update loyalty status
     } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Back from "../../assets/back.svg";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const OrderConfirmation = () => {
   const location = useLocation();
@@ -36,7 +37,7 @@ const OrderConfirmation = () => {
 
     try {
       // Post the order
-      const orderResponse = await fetch("http://localhost:5000/save-order", {
+      const orderResponse = await fetch(`${apiUrl}/save-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -58,12 +59,9 @@ const OrderConfirmation = () => {
       console.log("Order posted successfully");
 
       // Clear the cart
-      const clearCartResponse = await fetch(
-        `http://localhost:5000/clear-cart/${userId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const clearCartResponse = await fetch(`${apiUrl}/clear-cart/${userId}`, {
+        method: "DELETE",
+      });
 
       if (clearCartResponse.ok) {
         console.log("Cart cleared successfully");
