@@ -28,12 +28,12 @@ app.use(
   })
 );
 
-// Serve static files from the Vite app
-app.use(express.static(path.join(__dirname, "../src/dist")));
+// Serve frontend files from project root
+const buildPath = path.join(__dirname, ".."); // Adjust to match index.html location
+app.use(express.static(buildPath));
 
-// API route example
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from the backend!" });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 // Serve the Vite app for all other routes
