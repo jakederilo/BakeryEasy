@@ -32,13 +32,10 @@ app.use(
 const buildPath = path.join(__dirname, ".."); // Adjust to match index.html location
 app.use(express.static(buildPath));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
-});
+app.use(express.static(path.join(__dirname, "../dist"))); // Or similar
 
-// Serve the Vite app for all other routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../src/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../dist", "index.html"));
 });
 
 app.use(json());
